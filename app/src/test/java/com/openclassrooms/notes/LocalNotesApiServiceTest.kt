@@ -1,24 +1,25 @@
-package com.openclassrooms.notes.service
+package com.openclassrooms.notes
 
 import com.openclassrooms.notes.model.Note
+import com.openclassrooms.notes.service.LocalNotesApiService
+import junit.framework.TestCase.assertEquals
+import org.junit.Before
+import org.junit.Test
+import org.mockito.MockitoAnnotations
 
-/**
- * Implementation of the [NotesApiService] interface that stores note in local
- */
-class LocalNotesApiService : NotesApiService {
+class LocalNotesApiServiceTest {
 
+    private lateinit var localNotesApiService: LocalNotesApiService
 
-
-    override fun addNote(note: Note) {
-        allNotes.add(note)
+    @Before
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
+        localNotesApiService = LocalNotesApiService()
     }
 
-    /*
-    In order to be able to add new note, I changed
-    listOf which is a static display of list to mutable which is editable
-     */
-
-    private val allNotes = mutableListOf(
+    @Test
+    fun testGetAllNotes() {
+        val expectedNotes = listOf(
             Note("La vie est belle", "La vie est belle, pleine de choses à voir et à faire. Profitez de chaque moment et ne laissez jamais personne vous dire que vous ne pouvez pas faire ce que vous voulez."),
             Note("Ne laissez personne vous dire que vous ne pouvez pas faire quelque chose.", "Croyez en vous et en vos capacités. Ne laissez personne vous dire que vous ne pouvez pas faire quelque chose. Suivez vos rêves et ne laissez rien vous arrêter."),
             Note("Suivez vos rêves", "Ne laissez rien vous arrêter de suivre vos rêves. Travaillez dur et ne vous découragez jamais. Vos rêves sont à votre portée, alors n'ayez pas peur de les poursuivre."),
@@ -28,10 +29,10 @@ class LocalNotesApiService : NotesApiService {
             Note("Vivez le moment présent", "Ne vous inquiétez pas du passé et ne vous inquiétez pas de l'avenir. Vivez le moment présent et profitez de chaque minute. Le moment présent est tout ce que vous avez"),
             Note("Prenez soin de vous", "Mangez sainement, faites de l'exercice et dormez suffisamment. Prenez soin de votre corps et de votre esprit. Vous êtes votre meilleur atout."),
             Note("Passez du temps avec vos proches", "Ils sont les plus importants dans votre vie. Passez du temps avec vos proches et montrez-leur à quel point vous les aimez. Ils sont votre famille et vos amis."),
-            Note("Risez et amusez-vous.", "La vie est trop courte pour être sérieuse tout le temps. Riez et amusez-vous. Passez du temps à faire les choses que vous aimez."),
+            Note("Risez et amusez-vous.", "La vie est trop courte pour être sérieuse tout le temps. Riez et amusez-vous. Passez du temps à faire les choses que vous aimez.")
         )
-    override fun getAllNotes(): List<Note> {
-        return allNotes
-    }
 
+        val actualNotes = localNotesApiService.getAllNotes()
+        assertEquals(expectedNotes, actualNotes)
+    }
 }
